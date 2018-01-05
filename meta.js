@@ -6,24 +6,17 @@ const {
   runLintFix,
   printMessage,
 } = require('./utils')
-const pkg = require('./package.json')
-
-const templateVersion = pkg.version
 
 module.exports = {
   helpers: {
-    if_or(v1, v2, options) {
+    if_or: function(v1, v2, options) {
       if (v1 || v2) {
         return options.fn(this)
       }
 
       return options.inverse(this)
     },
-    template_version() {
-      return templateVersion
-    },
   },
-  
   prompts: {
     name: {
       type: 'string',
@@ -60,6 +53,10 @@ module.exports = {
     router: {
       type: 'confirm',
       message: 'Install vue-router?',
+    },
+    vuex: {
+      type: 'confirm',
+      message: 'Install vuex store?',
     },
     lint: {
       type: 'confirm',
@@ -139,6 +136,10 @@ module.exports = {
         },
       ],
     },
+    postcssPlugins: {
+        type: 'confirm',
+        message: 'Install PostCSS plugins?'
+    }
   },
   filters: {
     '.eslintrc.js': 'lint',
@@ -153,6 +154,8 @@ module.exports = {
     'test/unit/setup.js': "unit && runner === 'jest'",
     'test/e2e/**/*': 'e2e',
     'src/router/**/*': 'router',
+    'src/pages/**/*': 'router',
+    'src/store/**/*': 'vuex'
   },
   complete: function(data, { chalk }) {
     const green = chalk.green

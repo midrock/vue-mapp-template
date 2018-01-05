@@ -1,5 +1,5 @@
 <template lang="pug">
-vm-layout(ref="layout" title="Vue Mapp Demo")
+div Hello
     router-view
 </template>
 
@@ -7,9 +7,9 @@ vm-layout(ref="layout" title="Vue Mapp Demo")
 import { Vue, Component } from 'vue-property-decorator'
 
 @Component({
-    name: 'app'
+    name: 'hello'
 })
-export default class App extends Vue {
+export default class Hello extends Vue {
 
 }
 </script>

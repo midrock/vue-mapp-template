@@ -1,15 +1,14 @@
 <template lang="pug">
-vm-layout(ref="layout" title="Vue Mapp Demo")
-    router-view
+div FrontPage
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 
 @Component({
-    name: 'app'
+    name: 'front-page'
 })
-export default class App extends Vue {
+export default class FrontPage extends Vue {
 
 }
 </script>

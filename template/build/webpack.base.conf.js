@@ -22,7 +22,7 @@ function resolve (dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    app: './src/main.ts'
   },
   output: {
     path: config.build.assetsRoot,
@@ -32,12 +32,14 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.js', '.ts', '.vue', '.json'],
+    symlinks: false,
     alias: {
-      {{#if_eq build "standalone"}}
-      'vue$': 'vue/dist/vue.esm.js',
-      {{/if_eq}}
-      '@': resolve('src'),
+      'vue$': resolve('node_modules/vue/dist/vue.runtime.esm.js'),
+      'vue-class-component': resolve('node_modules/vue-class-component'),
+      'vue-property-decorator': resolve('node_modules/vue-property-decorator'),
+      'reflect-metadata$': resolve('node_modules/reflect-metadata'),
+      '@': resolve('src')
     }
   },
   module: {
@@ -48,12 +50,38 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: vueLoaderConfig
+        options: vueLoaderConfig,
+        include: [
+          resolve('src'),
+          resolve('node_modules/vue-mapp')
+        ]
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+        include: [
+          resolve('src'),
+          resolve('test'),
+          resolve('node_modules/webpack-dev-server/client'),
+          resolve('node_modules/vue-mapp')
+        ]
+      },
+      {
+        test: /\.tsx?$/,
+        use: [
+          'babel-loader',
+          {
+            loader: 'ts-loader',
+            options: {
+              appendTsSuffixTo: [/\.vue$/]
+            }
+          }
+        ],
+        include: [
+          resolve('src'),
+          resolve('test'),
+          resolve('node_modules/vue-mapp/ts')
+        ]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
